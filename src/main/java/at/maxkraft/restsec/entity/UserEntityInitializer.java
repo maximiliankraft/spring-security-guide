@@ -1,10 +1,11 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.entity;
 
+import at.maxkraft.restsec.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 
 import java.util.Set;
 
-public class DataInitializer implements CommandLineRunner {
+public class UserEntityInitializer implements CommandLineRunner {
 
     UserRepository userRepository;
 

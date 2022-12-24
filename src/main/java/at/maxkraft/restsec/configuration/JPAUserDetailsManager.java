@@ -1,8 +1,9 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.configuration;
 
+import at.maxkraft.restsec.entity.UserEntity;
+import at.maxkraft.restsec.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.hibernate.NotYetImplementedFor6Exception;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;

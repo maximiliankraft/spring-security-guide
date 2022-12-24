@@ -1,5 +1,6 @@
 package at.maxkraft.restsec;
 
+import at.maxkraft.restsec.entity.RsaKeyProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

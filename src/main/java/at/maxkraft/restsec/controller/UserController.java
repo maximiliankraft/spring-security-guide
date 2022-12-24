@@ -1,13 +1,16 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.controller;
 
 
+import at.maxkraft.restsec.configuration.JPAUserDetailsManager;
+import at.maxkraft.restsec.entity.UserEntity;
+import at.maxkraft.restsec.repository.UserRepository;
+import at.maxkraft.restsec.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;

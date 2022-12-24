@@ -1,5 +1,6 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.entity;
 
+import at.maxkraft.restsec.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

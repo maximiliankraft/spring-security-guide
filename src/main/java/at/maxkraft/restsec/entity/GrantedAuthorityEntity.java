@@ -1,4 +1,4 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
