@@ -23,8 +23,8 @@ public class UserEntity implements UserDetails {
 
     String username, password;
 
-    @OneToMany
-    Set<GrantedAuthorityEntity> authorities = Set.of(GrantedAuthorityEntity.of("read"));
+    @ManyToMany
+    Set<GrantedAuthorityEntity> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
