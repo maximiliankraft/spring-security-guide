@@ -1,5 +1,6 @@
 package at.maxkraft.restsec.permission;
 
+import at.maxkraft.restsec.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,16 +13,19 @@ import lombok.*;
 public class PermissionEntity {
 
     public static final Long ALL_OBJECTS = -1L;
+    public static final Long NEW_OBJECT = -2L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    String principal; // todo change to role based later
+    @JoinColumn(nullable = false)
+    @OneToOne(cascade = CascadeType.MERGE)
+    UserEntity principal;
 
-    @Builder.Default
-    Long objectId = ALL_OBJECTS;
+    @Column(nullable = false)
+    Long objectId;
 
     String targetTypeName;
 

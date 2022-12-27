@@ -14,4 +14,14 @@ public enum PermissionType {
 
     final Long powerLevel;
     final String permissionName;
+
+    public static PermissionType fromString(String s){
+        return switch (s) {
+            case "full" -> PermissionType.full;
+            case "grant" -> PermissionType.grant;
+            case "write" -> PermissionType.write;
+            case "read" -> PermissionType.read;
+            default -> PermissionType.none;
+        };
+    }
 }

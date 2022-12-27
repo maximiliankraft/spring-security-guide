@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     void deleteByUsername(String username);
+
     Optional<UserEntity> findByUsername(String username);
 
     int countByUsername(String username);

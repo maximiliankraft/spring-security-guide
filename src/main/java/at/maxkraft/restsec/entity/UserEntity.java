@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Set;
@@ -17,14 +19,32 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserEntity implements UserDetails {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Id
     Long userId;
 
-    String username, password;
+    public String username, password;
+
+    // don't use lombok here
+    public void setPassword(String password){
+        this.password = ENCODER.encode(password);
+    }
 
     @ManyToMany
     Set<GrantedAuthorityEntity> authorities;
+
+    @Column(nullable = false)
+    Boolean isUser;
+
+    // override lombok builder behaviour
+    public static class UserEntityBuilder {
+        public UserEntityBuilder password(String password) {
+            this.password = ENCODER.encode(password);
+            return this;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

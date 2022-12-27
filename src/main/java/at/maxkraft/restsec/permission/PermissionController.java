@@ -1,5 +1,6 @@
 package at.maxkraft.restsec.permission;
 
+import at.maxkraft.restsec.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,9 @@ public class PermissionController {
 
     PermissionService permissionService;
 
+    UserRepository userRepository;
+
+    // todo check if user has grant permission
     // grant certain permission to user
     @PutMapping("/grant")
     void grant(
@@ -23,14 +27,14 @@ public class PermissionController {
 
         if (permissionEntity.getObjectId() != null){
             result = permissionService.grantIdBasedPermission(
-                    authentication.getName(),
+                    userRepository.findByUsername(authentication.getName()).get(),
                     permissionEntity.getPrincipal(),
                     permissionEntity.getObjectId(),
                     permissionEntity.getTargetTypeName(),
                     permissionEntity.getPermName());
         }else {
             result = permissionService.grantGeneralPermission(
-                    authentication.getName(),
+                    userRepository.findByUsername(authentication.getName()).get(),
                     permissionEntity.getPrincipal(),
                     permissionEntity.getTargetTypeName(),
                     permissionEntity.getPermName());
@@ -54,14 +58,14 @@ public class PermissionController {
 
         if (permissionEntity.getObjectId() != null){
             result = permissionService.revokeIdBasedPermission(
-                    authentication.getName(),
+                    userRepository.findByUsername(authentication.getName()).get(),
                     permissionEntity.getPrincipal(),
                     permissionEntity.getObjectId(),
                     permissionEntity.getTargetTypeName()
             );
         }else {
             result = permissionService.revokeGeneralPermission(
-                    authentication.getName(),
+                    userRepository.findByUsername(authentication.getName()).get(),
                     permissionEntity.getPrincipal(),
                     permissionEntity.getTargetTypeName()
             );

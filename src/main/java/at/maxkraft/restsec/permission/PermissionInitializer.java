@@ -1,5 +1,6 @@
 package at.maxkraft.restsec.permission;
 
+import at.maxkraft.restsec.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -18,6 +19,8 @@ public class PermissionInitializer implements CommandLineRunner {
 
     PermissionRepository permissionRepository;
 
+    UserRepository userRepository;
+
     @Override
     public void run(String... args) {
 
@@ -26,7 +29,7 @@ public class PermissionInitializer implements CommandLineRunner {
                 .permName(PermissionType.full)
                 .objectId(PermissionEntity.ALL_OBJECTS)
                 .targetTypeName("PermissionEntity")
-                .principal("admin")
+                .principal(userRepository.findByUsername("admin").get())
                 .build();
 
         // admin has full control over all assignment objects
@@ -34,7 +37,7 @@ public class PermissionInitializer implements CommandLineRunner {
                 .permName(PermissionType.full)
                 .objectId(PermissionEntity.ALL_OBJECTS)
                 .targetTypeName("Assignment")
-                .principal("admin")
+                .principal(userRepository.findByUsername("admin").get())
                 .build();
 
         // admin has full control over all user objects
@@ -42,21 +45,36 @@ public class PermissionInitializer implements CommandLineRunner {
                 .permName(PermissionType.full)
                 .objectId(PermissionEntity.ALL_OBJECTS)
                 .targetTypeName("UserEntity")
-                .principal("admin")
+                .principal(userRepository.findByUsername("admin").get())
                 .build();
 
         // max has full control over his Assignment objects
-        // todo user based ownership
         PermissionEntity maxHisAssignments = PermissionEntity.builder()
                 .permName(PermissionType.full)
                 .objectId(PermissionEntity.ALL_OBJECTS)
                 .targetTypeName("Assignment")
-                .principal("max")
+                .principal(userRepository.findByUsername("max").get())
+                .build();
+
+        PermissionEntity adminMaxReadAccess = PermissionEntity.builder()
+                .permName(PermissionType.read)
+                .objectId(2L)
+                .targetTypeName("Assignment")
+                .principal(userRepository.findByUsername("admin").get())
+                .build();
+
+        PermissionEntity assignmentMaxFullAccess = PermissionEntity.builder()
+                .permName(PermissionType.full)
+                .objectId(2L)
+                .targetTypeName("Assignment")
+                .principal(userRepository.findByUsername("max").get())
                 .build();
 
         permissionRepository.save(adminFullAssignment);
         permissionRepository.save(adminFullUser);
         permissionRepository.save(maxHisAssignments);
         permissionRepository.save(adminFullPermissions);
+        permissionRepository.save(adminMaxReadAccess);
+        permissionRepository.save(assignmentMaxFullAccess);
     }
 }

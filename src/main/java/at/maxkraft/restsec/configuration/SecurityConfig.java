@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -33,10 +34,12 @@ public class SecurityConfig {
 
     AuthenticationProviderImpl authenticationProvider;
 
+    JPAUserDetailsManager jpaUserDetailsManager;
+
     private final RsaKeyProperties rsaKeys;
 
 
-    // todo encrapt passwords
+    // for encrypting passwords
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,6 +54,15 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        // utilizes the user repository to search for users
+        authProvider.setUserDetailsService(jpaUserDetailsManager);
+        // encodes password to check if they match with the stored encryped version
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        return authProvider;
+    }
 
 
     @Bean
@@ -64,8 +76,6 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

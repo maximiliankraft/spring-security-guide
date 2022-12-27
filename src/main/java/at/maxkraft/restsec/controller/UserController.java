@@ -12,11 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -27,6 +25,8 @@ import java.util.List;
 public class UserController {
 
     JPAUserDetailsManager jpaUserDetailsManager;
+
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     UserRepository userRepository;
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -52,11 +52,16 @@ public class UserController {
     }
 
     // allows access unauthenticated via SecurityConfig
-    @GetMapping("/register/{username}/{password}")
-    public UserDetails register(@PathVariable String username, @PathVariable String password) {
+    @PutMapping("/register/{username}/{password}")
+    public UserDetails register(@PathVariable String username, @PathVariable String password, HttpServletResponse response) {
         LOG.debug("Registration requested for user: '{}'", username);
 
-        return userRepository.save(UserEntity.builder().username(username).password(password).build() );
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        return userRepository.save(UserEntity.builder()
+                .username(username)
+                .isUser(true)
+                .password(bCryptPasswordEncoder.encode(password))
+                .build());
     }
 
     @GetMapping("/delete")

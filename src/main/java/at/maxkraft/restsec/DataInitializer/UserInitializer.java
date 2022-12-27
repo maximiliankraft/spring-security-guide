@@ -47,6 +47,7 @@ public class UserInitializer implements CommandLineRunner {
                 UserEntity.builder()
                         .username("admin")
                         .password("admin")
+                        .isUser(true)
                         .authorities(
                                 Set.of(
                                         GrantedAuthorityEntity.of("admin"),
@@ -59,8 +60,11 @@ public class UserInitializer implements CommandLineRunner {
                 UserEntity.builder()
                         .username("max")
                         .password("123456")
+                        .isUser(true)
                         .authorities(
-                                Set.of(GrantedAuthorityEntity.of("read"))
+                                Set.of(
+                                        GrantedAuthorityEntity.of("write"),
+                                        GrantedAuthorityEntity.of("read"))
                         ).build());
     }
 

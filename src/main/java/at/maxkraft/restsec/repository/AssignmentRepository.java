@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AssignmentRepository extends CrudRepository<Assignment, Long> {
     Iterable<Assignment> findAllByOwnerUsername(String username);
+
 }

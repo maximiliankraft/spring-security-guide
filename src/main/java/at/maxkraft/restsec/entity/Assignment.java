@@ -1,6 +1,5 @@
 package at.maxkraft.restsec.entity;
 
-import at.maxkraft.restsec.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Assignment {
 
     @Id
@@ -16,9 +16,11 @@ public class Assignment {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     String title, description;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     UserEntity owner;
 
 }

@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
-@Order(10)
+@Order(50)
 @Component
 @AllArgsConstructor
 @Log // injects logger into class
@@ -21,11 +21,23 @@ public class AssignmentInitializer implements CommandLineRunner {
 
     public void run(String... args){
 
-        var testUser = userRepository.findByUsername("admin");
+        var admin = userRepository.findByUsername("admin");
+        var max = userRepository.findByUsername("max");
 
-        if (testUser.isPresent()){
-            Assignment a1 = new Assignment(null, "Test", "Test", testUser.get());
+        if (admin.isPresent()){
+            Assignment a1 = new Assignment(1L, "Admins assignment", "Test", admin.get());
             assignmentRepository.save(a1);
+        }
+
+        if (max.isPresent()){
+            Assignment m2 = Assignment.builder()
+                    .id(2L)
+                    .title("Max assignment")
+                    .description("test")
+                    .owner(max.get())
+                    .build();
+
+            assignmentRepository.save(m2);
         }
     }
 }
