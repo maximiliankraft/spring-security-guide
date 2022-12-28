@@ -5,17 +5,17 @@ import at.maxkraft.restsec.entity.RsaKeyProperties;
 import at.maxkraft.restsec.entity.UserEntity;
 import at.maxkraft.restsec.permission.PermissionEntity;
 import at.maxkraft.restsec.permission.PermissionType;
+import at.maxkraft.restsec.repository.AssignmentRepository;
 import at.maxkraft.restsec.repository.UserRepository;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +29,18 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@DirtiesContext
 class RestsecApplicationTests {
 
 	Logger logger = Logger.getLogger("testLogger");
 
 	static Gson gson = new Gson();
 
+	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	AssignmentRepository assignmentRepository;
 
 	String userAJWT;
 
@@ -61,7 +66,7 @@ class RestsecApplicationTests {
 
 		mockMvc.perform(
 						put("/permission/grant")
-								.with(user("admin").password("admin"))
+								.with(user(granter.getUsername()).password(granter.getPassword()))
 								.content(gson.toJson(permissionEntity))
 								.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
@@ -103,6 +108,7 @@ class RestsecApplicationTests {
 	@Test
 	@Transactional
 	@Order(1)
+	@DirtiesContext
 	void testReceiveAdminsJWTAtLogin() throws Exception {
 		var result = mockMvc.perform(
 				get("/user/login")
@@ -128,13 +134,14 @@ class RestsecApplicationTests {
 	 * */
 	@Test
 	@Transactional
-	@Order(1)
+	@Order(2)
+	@DirtiesContext
 	void testAddAssignmentOnNewUser() throws Exception {
 
 		// setup
 		userGrantsPermissionToUser(
 				UserEntity.builder().username("admin").password("admin").build(),
-				UserEntity.builder().username("a").build(),
+				UserEntity.builder().username("a").password("a").build(),
 				PermissionType.write,
 				PermissionEntity.NEW_OBJECT,
 				"Assignment");
@@ -157,7 +164,9 @@ class RestsecApplicationTests {
 
 	/** user a grants user b full access to one of its resources */
 	@Test
-	@Order(2)
+	@Transactional
+	@Order(3)
+	@DirtiesContext
 	void testUserGrantsPermissionToOtherUser() throws Exception{
 		// setup
 		userGrantsPermissionToUser(
