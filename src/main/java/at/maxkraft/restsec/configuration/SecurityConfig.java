@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -59,6 +60,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         // utilizes the user repository to search for users
         authProvider.setUserDetailsService(jpaUserDetailsManager);
+
         // encodes password to check if they match with the stored encryped version
         authProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return authProvider;
@@ -80,14 +82,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                //.logout(LogoutConfigurer::permitAll)
-                //.formLogin(form -> form.loginPage("/login"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .csrf().disable()
                 .build();

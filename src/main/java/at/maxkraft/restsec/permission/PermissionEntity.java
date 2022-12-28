@@ -30,5 +30,5 @@ public class PermissionEntity {
     String targetTypeName;
 
     @Builder.Default
-    PermissionType permName = PermissionType.read;
+    PermissionType permName = PermissionType.none;
 }

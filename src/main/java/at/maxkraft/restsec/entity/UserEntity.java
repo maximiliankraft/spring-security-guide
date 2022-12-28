@@ -21,13 +21,17 @@ public class UserEntity implements UserDetails {
 
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     Long userId;
 
-    public String username, password;
+    @Column(nullable = false, unique = true)
+    public String username;
 
-    // don't use lombok here
+    @Column(nullable = false)
+    public String password;
+
+    // overrides lombok
     public void setPassword(String password){
         this.password = ENCODER.encode(password);
     }

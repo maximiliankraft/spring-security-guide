@@ -27,15 +27,16 @@ public class PermissionController {
 
         if (permissionEntity.getObjectId() != null){
             result = permissionService.grantIdBasedPermission(
+                    // narrow down users to it actual db representation, don't allow stub users
                     userRepository.findByUsername(authentication.getName()).get(),
-                    permissionEntity.getPrincipal(),
+                    userRepository.findByUsername(permissionEntity.getPrincipal().getUsername()).get(),
                     permissionEntity.getObjectId(),
                     permissionEntity.getTargetTypeName(),
                     permissionEntity.getPermName());
         }else {
             result = permissionService.grantGeneralPermission(
                     userRepository.findByUsername(authentication.getName()).get(),
-                    permissionEntity.getPrincipal(),
+                    userRepository.findByUsername(permissionEntity.getPrincipal().getUsername()).get(),
                     permissionEntity.getTargetTypeName(),
                     permissionEntity.getPermName());
         }
@@ -59,6 +60,7 @@ public class PermissionController {
         if (permissionEntity.getObjectId() != null){
             result = permissionService.revokeIdBasedPermission(
                     userRepository.findByUsername(authentication.getName()).get(),
+                    // todo don't allow stub users here either
                     permissionEntity.getPrincipal(),
                     permissionEntity.getObjectId(),
                     permissionEntity.getTargetTypeName()

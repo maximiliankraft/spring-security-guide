@@ -22,6 +22,10 @@ public class PermissionService {
         // check if the granter has grant permission on target type, to add a new user (grantee
         if (checkGeneralPermission(granter, targetType, PermissionType.grant)){
 
+
+            // todo check why there are two users possible and exist
+            var all = userRepository.findAll().parallelStream().toList();
+
             var permission = PermissionEntity.builder()
                     // reload userobject in case a stub got passed
                     .principal(userRepository.findByUsername(grantee.getUsername()).get())
