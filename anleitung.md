@@ -59,10 +59,11 @@ public class SecurityConfig {
 4. `SessionCreationPolicy.STATELESS` bedeutet dass keine Session erzeugt wird. Sessions eigenen sich mehr wenn man 
    eine Anwendung schreibt welche im Browser arbeitet. Bei einer API, wenn da eine SessionID zurückkommen würde müsste 
    man die extra speichern. Man muss sich also bei jeder Anfrage neu authentifizieren.
-5. MIt `httpBasic` erlaubt man eine Basic Authetication. Im Normalfall werden hierbei Benutzername und Passwort im 
+5. MIt `httpBasic` erlaubt man eine Basic Authentication. Im Normalfall werden hierbei Benutzername und Passwort im 
    HTTP-Header mitgeschickt. Die API kann daraufhin einen zeitlich begrenzten JWT zurückschicken zur weiteren 
    verwendung. Dabei sollte man darauf achten dass die Daten im Internet bei der Übertragung mit HTTPS verschlüsselt 
-   sind, sonst können Dritte sie abfangen. 
+   sind, sonst können Dritte sie abfangen. **WICHTIG: Spring prüft nicht automatisch ob Benutzername+Password welche 
+   übermittelt wurden auch gültig sind. Ein Authentication-Object kann auch falsch sein**
 6. Nachdem diese API nicht für die Verwendung im Browser vorgesehen ist kann man CSRF abschalten um die Interaktion 
    für http libraries zu vereinfachen. 
 
