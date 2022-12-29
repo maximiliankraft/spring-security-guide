@@ -84,6 +84,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
+                        .requestMatchers("/sms/**").anonymous()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system

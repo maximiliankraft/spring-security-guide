@@ -49,9 +49,14 @@ class RestsecApplicationTests {
 
 	void createNewUser(String username, String password) throws Exception {
 		// check if user gets created
-		mockMvc
+		var response = mockMvc
 				.perform(put(String.format("/user/register/%s/%s", username, password)))
-				.andExpect(status().isCreated());
+				.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+
+		var returnedUser = gson.fromJson(response, UserEntity.class);
+
+		assert !returnedUser.getPassword().equals(password);
+
 	}
 
 
@@ -238,6 +243,30 @@ class RestsecApplicationTests {
 		).andExpect(
 				status().isNotFound()
 		);
+	}
+
+	@Order(4)
+	@Test
+	@DirtiesContext
+	@Transactional
+	void testChangePassword() throws Exception {
+
+		var username = "b";
+
+		var oldPassword = "b";
+		var newPassword = "c";
+
+		mockMvc.perform(post(String.format("/user/changePassword/%s/%s", oldPassword, newPassword))
+				.with(user(username).password(oldPassword)))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(get("/user/login")
+						.with(user(username).password(oldPassword)))
+				.andExpect(status().isForbidden());
+
+		mockMvc.perform(get("/user/login")
+				.with(user(username).password(newPassword)))
+				.andExpect(status().isOk());
 
 	}
 

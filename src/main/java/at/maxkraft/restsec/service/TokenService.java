@@ -1,5 +1,8 @@
 package at.maxkraft.restsec.service;
 
+import at.maxkraft.restsec.entity.UserEntity;
+import at.maxkraft.restsec.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -16,8 +19,15 @@ public class TokenService {
 
     private final JwtEncoder encoder;
 
+
     public TokenService(JwtEncoder encoder) {
         this.encoder = encoder;
+    }
+
+    public boolean verifyAuthentication(Authentication authentication, UserEntity user) {
+
+        return UserEntity.ENCODER.matches((String) authentication.getCredentials(), user.getPassword());
+
     }
 
     public String generateToken(Authentication authentication) {

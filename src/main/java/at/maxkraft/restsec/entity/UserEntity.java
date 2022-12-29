@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserEntity implements UserDetails {
 
-    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
+    public static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
