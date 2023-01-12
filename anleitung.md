@@ -277,3 +277,17 @@ Endpunkt in einem Controller aufrufen:
 Die Symbole, welche mit ``@`` beginnen müssen im Scope der Klasse oder Methode auffindbar sein. 
 
 > Spring-EL erklärt: https://www.baeldung.com/spring-expression-language
+
+## Beispiel-Anfragen
+
+```http request
+### register peter
+PUT http://localhost:8080/user/register/peter/123
+```
+
+```http request
+### get auth token for peter
+GET http://localhost:8080/user/login
+Authorization: Basic peter 123
+```
+
