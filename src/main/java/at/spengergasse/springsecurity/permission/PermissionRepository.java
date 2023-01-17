@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.permission;
+package at.spengergasse.springsecurity.permission;
 
-import at.maxkraft.restsec.entity.UserEntity;
+import at.spengergasse.springsecurity.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

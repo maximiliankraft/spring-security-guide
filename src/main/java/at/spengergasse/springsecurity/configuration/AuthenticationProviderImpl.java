@@ -1,7 +1,7 @@
-package at.maxkraft.restsec.configuration;
+package at.spengergasse.springsecurity.configuration;
 
 
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

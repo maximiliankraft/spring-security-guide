@@ -1,4 +1,4 @@
-package at.maxkraft.restsec.configuration;
+package at.spengergasse.springsecurity.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

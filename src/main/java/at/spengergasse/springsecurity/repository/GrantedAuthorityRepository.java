@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.repository;
+package at.spengergasse.springsecurity.repository;
 
-import at.maxkraft.restsec.entity.GrantedAuthorityEntity;
+import at.spengergasse.springsecurity.entity.GrantedAuthorityEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface GrantedAuthorityRepository extends CrudRepository<GrantedAuthorityEntity, String> {

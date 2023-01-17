@@ -1,8 +1,8 @@
-package at.maxkraft.restsec.DataInitializer;
+package at.spengergasse.springsecurity.DataInitializer;
 
-import at.maxkraft.restsec.entity.Assignment;
-import at.maxkraft.restsec.repository.AssignmentRepository;
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.entity.Assignment;
+import at.spengergasse.springsecurity.repository.AssignmentRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.boot.CommandLineRunner;

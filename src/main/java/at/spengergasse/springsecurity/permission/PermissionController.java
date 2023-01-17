@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.permission;
+package at.spengergasse.springsecurity.permission;
 
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;

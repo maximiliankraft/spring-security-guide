@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.permission;
+package at.spengergasse.springsecurity.permission;
 
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;

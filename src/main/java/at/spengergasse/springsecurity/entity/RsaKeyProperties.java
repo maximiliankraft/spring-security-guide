@@ -1,4 +1,4 @@
-package at.maxkraft.restsec.entity;
+package at.spengergasse.springsecurity.entity;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

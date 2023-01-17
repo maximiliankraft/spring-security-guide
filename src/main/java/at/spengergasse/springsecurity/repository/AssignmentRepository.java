@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.repository;
+package at.spengergasse.springsecurity.repository;
 
-import at.maxkraft.restsec.entity.Assignment;
+import at.spengergasse.springsecurity.entity.Assignment;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AssignmentRepository extends CrudRepository<Assignment, Long> {

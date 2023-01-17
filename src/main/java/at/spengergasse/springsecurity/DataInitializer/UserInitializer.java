@@ -1,9 +1,9 @@
-package at.maxkraft.restsec.DataInitializer;
+package at.spengergasse.springsecurity.DataInitializer;
 
-import at.maxkraft.restsec.entity.GrantedAuthorityEntity;
-import at.maxkraft.restsec.entity.UserEntity;
-import at.maxkraft.restsec.repository.GrantedAuthorityRepository;
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.entity.GrantedAuthorityEntity;
+import at.spengergasse.springsecurity.entity.UserEntity;
+import at.spengergasse.springsecurity.repository.GrantedAuthorityRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

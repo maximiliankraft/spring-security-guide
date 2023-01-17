@@ -1,12 +1,12 @@
-package at.maxkraft.restsec;
+package at.spengergasse.springsecurity;
 
-import at.maxkraft.restsec.entity.Assignment;
-import at.maxkraft.restsec.entity.RsaKeyProperties;
-import at.maxkraft.restsec.entity.UserEntity;
-import at.maxkraft.restsec.permission.PermissionEntity;
-import at.maxkraft.restsec.permission.PermissionType;
-import at.maxkraft.restsec.repository.AssignmentRepository;
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.entity.Assignment;
+import at.spengergasse.springsecurity.entity.RsaKeyProperties;
+import at.spengergasse.springsecurity.entity.UserEntity;
+import at.spengergasse.springsecurity.permission.PermissionEntity;
+import at.spengergasse.springsecurity.permission.PermissionType;
+import at.spengergasse.springsecurity.repository.AssignmentRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,10 @@ class RestsecApplicationTests {
 	static Gson gson = new Gson();
 
 	@Autowired
-	UserRepository userRepository;
+    UserRepository userRepository;
 
 	@Autowired
-	AssignmentRepository assignmentRepository;
+    AssignmentRepository assignmentRepository;
 
 	String userAJWT;
 

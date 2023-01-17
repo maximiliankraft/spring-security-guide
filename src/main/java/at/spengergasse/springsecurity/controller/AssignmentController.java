@@ -1,12 +1,12 @@
-package at.maxkraft.restsec.controller;
+package at.spengergasse.springsecurity.controller;
 
-import at.maxkraft.restsec.entity.Assignment;
-import at.maxkraft.restsec.exception.ResourceNotFoundException;
-import at.maxkraft.restsec.permission.PermissionEntity;
-import at.maxkraft.restsec.permission.PermissionService;
-import at.maxkraft.restsec.permission.PermissionType;
-import at.maxkraft.restsec.repository.AssignmentRepository;
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.entity.Assignment;
+import at.spengergasse.springsecurity.exception.ResourceNotFoundException;
+import at.spengergasse.springsecurity.permission.PermissionEntity;
+import at.spengergasse.springsecurity.permission.PermissionService;
+import at.spengergasse.springsecurity.permission.PermissionType;
+import at.spengergasse.springsecurity.repository.AssignmentRepository;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

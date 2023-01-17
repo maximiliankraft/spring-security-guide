@@ -1,4 +1,4 @@
-package at.maxkraft.restsec.permission;
+package at.spengergasse.springsecurity.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

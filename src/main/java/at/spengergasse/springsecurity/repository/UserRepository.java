@@ -1,6 +1,6 @@
-package at.maxkraft.restsec.repository;
+package at.spengergasse.springsecurity.repository;
 
-import at.maxkraft.restsec.entity.UserEntity;
+import at.spengergasse.springsecurity.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
