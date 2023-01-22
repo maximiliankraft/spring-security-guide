@@ -1,10 +1,10 @@
-package at.maxkraft.restsec.controller;
+package at.spengergasse.springsecurity.controller;
 
 
-import at.maxkraft.restsec.configuration.JPAUserDetailsManager;
-import at.maxkraft.restsec.entity.UserEntity;
-import at.maxkraft.restsec.repository.UserRepository;
-import at.maxkraft.restsec.service.TokenService;
+import at.spengergasse.springsecurity.configuration.JPAUserDetailsManager;
+import at.spengergasse.springsecurity.entity.UserEntity;
+import at.spengergasse.springsecurity.repository.UserRepository;
+import at.spengergasse.springsecurity.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package at.maxkraft.restsec.service;
+package at.spengergasse.springsecurity.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

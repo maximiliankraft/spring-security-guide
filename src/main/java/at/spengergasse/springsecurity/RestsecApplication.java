@@ -1,6 +1,6 @@
-package at.maxkraft.restsec;
+package at.spengergasse.springsecurity;
 
-import at.maxkraft.restsec.entity.RsaKeyProperties;
+import at.spengergasse.springsecurity.entity.RsaKeyProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -4,6 +4,7 @@ import at.spengergasse.springsecurity.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +29,7 @@ public class PermissionController {
         if (permissionEntity.getObjectId() != null){
             result = permissionService.grantIdBasedPermission(
                     // narrow down users to it actual db representation, don't allow stub users
-                    userRepository.findByUsername(authentication.getName()).get(),
+                    userRepository.findByUsername(((UserDetails)authentication.getPrincipal()).getUsername()).get(),
                     userRepository.findByUsername(permissionEntity.getPrincipal().getUsername()).get(),
                     permissionEntity.getObjectId(),
                     permissionEntity.getTargetTypeName(),

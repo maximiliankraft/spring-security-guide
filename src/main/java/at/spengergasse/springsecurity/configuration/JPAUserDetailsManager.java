@@ -1,17 +1,14 @@
-package at.maxkraft.restsec.configuration;
+package at.spengergasse.springsecurity.configuration;
 
-import at.maxkraft.restsec.entity.UserEntity;
-import at.maxkraft.restsec.repository.UserRepository;
+import at.spengergasse.springsecurity.entity.UserEntity;
+import at.spengergasse.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.hibernate.NotYetImplementedFor6Exception;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +19,8 @@ import java.util.Objects;
 public class JPAUserDetailsManager implements UserDetailsManager {
 
     UserRepository userRepository;
-    SecurityContextHolderStrategy securityContextHolderStrategy;
+    final SecurityContextHolderStrategy securityContextHolderStrategy = new CustomSecurityHolderStrategy();
+
 
     @Override
     public void createUser(UserDetails user) {
