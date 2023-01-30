@@ -35,7 +35,6 @@ public class UserController {
 
     UserRepository userRepository;
 
-
     boolean isUserCredentialsValid(Authentication auth){
 
         String givenUsername = (String)auth.getPrincipal();
