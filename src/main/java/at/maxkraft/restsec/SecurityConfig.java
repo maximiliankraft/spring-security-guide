@@ -33,63 +33,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    UserRepository userRepository;
-
-    JPAUserDetailsManager jpaUserDetailsManager;
-
-    AuthenticationProviderImpl authenticationProvider;
-
-
-    // assign custom authentication provider
-    @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
-        return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    static JPAUserDetailsManager getInstance(UserRepository userRepository){
-        return new JPAUserDetailsManager(userRepository);
-    }
-
-    private final RsaKeyProperties rsaKeys;
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
-    }
-
-    @Bean
-    JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
-    }
-
-    // create default users in memory
-    // todo store and retrive from db
-    @Bean
-    public UserDetailsManager users() {
-
-        return jpaUserDetailsManager;
-        /*
-        var user1 = User.withUsername("dvega")
-                .password("{noop}password")
-                .authorities("read")
-                .build();
-
-        var user2 = User.withUsername("max")
-                .password("{noop}123456")
-                .authorities("read")
-                .build();
-
-
-        return new InMemoryUserDetailsManager(
-            user1, user2
-        );*/
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -99,8 +42,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
-                        .requestMatchers("/h2-console/**").anonymous()
-                        .requestMatchers("/h2-console").anonymous()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system

@@ -25,57 +25,5 @@ public class UserController {
 
     JPAUserDetailsManager jpaUserDetailsManager;
 
-    UserRepository userRepository;
-    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
-    TokenService tokenService;
-
-    @GetMapping("/")
-    public List<UserEntity> findAll(){
-        return userRepository.findAll();
-    }
-
-    @GetMapping("/name")
-    public String home(Principal principal) {
-        return principal.getName();
-    }
-
-    // login user and return a token
-    @GetMapping("/login")
-    public String login(Authentication authentication) {
-        LOG.debug("Token requested for user: '{}'", authentication.getName());
-        String token = tokenService.generateToken(authentication);
-        LOG.debug("Token granted: {}", token);
-        return token;
-    }
-
-    // allows access unauthenticated via SecurityConfig
-    @GetMapping("/register/{username}/{password}")
-    public UserDetails register(@PathVariable String username, @PathVariable String password) {
-        LOG.debug("Registration requested for user: '{}'", username);
-
-        return userRepository.save(UserEntity.builder().username(username).password(password).build() );
-    }
-
-    @GetMapping("/delete")
-    public UserDetails removeAccount(Authentication authentication, HttpServletResponse response){
-
-        var userEntity = userRepository.findByUsername(authentication.getName());
-
-        if (userEntity.isPresent()){
-            userRepository.deleteByUsername(authentication.getName());
-            return userEntity.get();
-        }else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return null;
-        }
-    }
-
-    // https://stackoverflow.com/a/46889039/17996814
-    @GetMapping("/logout")
-    public void logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response){
-        if (authentication != null){
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
-    }
 
 }
