@@ -12,7 +12,47 @@ import java.util.Set;
 import java.util.UUID;
 
 
-
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity implements UserDetails {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long userId;
+
+    String username;
+    String password;
+    boolean enabled;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
 }
