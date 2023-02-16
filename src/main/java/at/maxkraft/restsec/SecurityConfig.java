@@ -37,15 +37,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .logout(LogoutConfigurer::permitAll)
-                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
-                .csrf(AbstractHttpConfigurer::disable)
+                //.logout(LogoutConfigurer::permitAll)
+                //.formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
+                //.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/test/**").anonymous()
+                        .requestMatchers("/test/**").authenticated()
+                        .anyRequest().anonymous()
                 )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
+                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
+                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
                 .httpBasic(Customizer.withDefaults()) // (4)
                 .build();
     }
