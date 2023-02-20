@@ -108,15 +108,17 @@ public class UserController {
     }
 
     @PatchMapping("/changePassword")
-    UserEntity changePassword(@RequestBody UserEntity userWithNewPw, Authentication auth, HttpServletResponse response){
+    UserEntity changePassword(@RequestBody UserEntity userWithNewPw,
+                              Authentication auth,
+                              HttpServletResponse response){
 
         if(isUserCredentialsValid(auth) && ((String)auth.getPrincipal()).equals(userWithNewPw.getUsername()) ){
+            response.setStatus(200);
             return userRepository.save(userWithNewPw);
         }
 
         response.setStatus(401);
         return null;
-
     }
 
 

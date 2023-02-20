@@ -25,16 +25,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
+    private CustomAuthenticationProvider authProvider;
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(authProvider);
+        return authenticationManagerBuilder.build();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .logout(LogoutConfigurer::permitAll)
+                .formLogin().disable()
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/user/register/**").anonymous()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/user/register/**").anonymous()
+                        .requestMatchers("/user/login/**").anonymous()
+                        .requestMatchers("/h2-console").permitAll()
+                        .anyRequest().authenticated()
                 )
                 //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
