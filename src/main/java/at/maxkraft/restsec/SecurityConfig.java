@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/register/**").anonymous()
                         .requestMatchers("/test/**").anonymous()
                         .requestMatchers("/test/**").authenticated()
-                        .anyRequest().anonymous()
+                        .anyRequest().permitAll()
                 )
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
                 //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)

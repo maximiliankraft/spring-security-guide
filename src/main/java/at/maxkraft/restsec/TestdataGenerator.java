@@ -21,8 +21,9 @@ public class TestdataGenerator implements CommandLineRunner {
 
         AuthorityEntity read = new AuthorityEntity(null, "read");
         AuthorityEntity write = new AuthorityEntity(null, "write");
+        AuthorityEntity adminAuthority = new AuthorityEntity(null, "admin");
 
-        authorityRepository.saveAll(List.of(read, write));
+        authorityRepository.saveAll(List.of(read, write, adminAuthority));
 
         var admin = new UserEntity(
                 null,
@@ -31,7 +32,7 @@ public class TestdataGenerator implements CommandLineRunner {
                 true,
                 false,
                 false,
-                List.of(write, read));
+                List.of(write, read, adminAuthority));
 
         userRepository.save(admin);
 

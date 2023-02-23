@@ -50,12 +50,41 @@ public class UserController {
 
     // /grant
 
-    @PutMapping("/grant")
-    Optional<Permission> grantPermission(@RequestBody Permission permission, HttpServletRequest request){
+    @GetMapping("/grant/{grantingUsername}/{password}/{grantedUsername}/{permissionType}/{className}/{objectId}")
+    Permission grantPermission(
+            @PathVariable String grantingUsername,
+            @PathVariable String password,
+            @PathVariable String grantedUsername,
+            @PathVariable String permissionType, // e.g read, write, delete...
+            @PathVariable String className,
+            @PathVariable Long objectId,
+            HttpServletResponse response
+    ){
+
+        var grantedUserOption = userRepository.findByUsername(grantedUsername);
+
+        if (grantedUserOption.isPresent()){
+            var newPermission = new Permission(null, grantedUserOption.get(), className, objectId, permissionType);
+
+            var grantingUser = userRepository.findByUsernameAndPassword(grantingUsername, password);
+
+            if (grantingUser.isPresent()){ // user exists
+
+                // todo continue here
+                //grantingUser.get().getAuthorities()
+
+            } else { // user credentials invalid
+                response.setStatus(401);
+                return null;
+            }
 
 
+        }else {
+            response.setStatus(400);
+            return null;
+        }
 
-        return Optional.of(permissionRepository.save(permission)) ;
+
     }
 
 
