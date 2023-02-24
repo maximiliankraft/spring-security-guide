@@ -48,6 +48,11 @@ public class UserController {
     }
 
 
+    @PostMapping("/name")
+    String getUsername(Authentication authentication){
+        return authentication.getName();
+    }
+
     // /grant
 
     @GetMapping("/grant/{grantingUsername}/{password}/{grantedUsername}/{permissionType}/{className}/{objectId}")
@@ -84,7 +89,7 @@ public class UserController {
             return null;
         }
 
-
+        return null;
     }
 
 
