@@ -25,31 +25,38 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private CustomAuthenticationProvider authProvider;
 
-    @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(authProvider);
-        return authenticationManagerBuilder.build();
-    }
+    CustomAuthenticationProvider customAuthenticationProvider;
+
+    /**
+    * Checklist for setting up an Authentication properly:
+     * Existing user (with inital data generator)
+     * (Request)
+     * Custom AuthenticationProvider accessing user repository
+     * Disable csrf - csrf(AbstractHttpConfigurer::disable)
+     * Correctly formatted path starting with /resource/**
+
+     * */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .logout(LogoutConfigurer::permitAll)
-                .formLogin().disable()
-                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
-                .csrf(AbstractHttpConfigurer::disable)
+                //.logout(LogoutConfigurer::permitAll)
+                //.formLogin().disable()
+                //.formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
+                .csrf(AbstractHttpConfigurer::disable) // !IMPORTANT see https://stackoverflow.com/a/19496356/17996814
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
                         .requestMatchers("/user/login/**").anonymous()
-                        .requestMatchers("/h2-console").permitAll()
+                        //.requestMatchers("/user/changePassword/**").authenticated()
+                        //.requestMatchers("/user/changePassword/**").authenticated()
                         .anyRequest().authenticated()
+                        //.requestMatchers("/h2-console").permitAll()
+                        //.anyRequest().authenticated()
                 )
                 //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
+                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
+                .authenticationProvider(customAuthenticationProvider)
                 .httpBasic(Customizer.withDefaults()) // (4)
                 .build();
     }

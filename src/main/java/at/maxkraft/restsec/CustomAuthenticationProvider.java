@@ -1,6 +1,8 @@
 package at.maxkraft.restsec;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -9,22 +11,27 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-// source see: https://www.baeldung.com/spring-security-authentication-provider
 @Component
+@AllArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+
+    JPAUserDetailsManager jpaUserDetailsManager;
 
     @Override
     public Authentication authenticate(Authentication authentication)
       throws AuthenticationException {
  
         String name = authentication.getName();
-        String password = (String)authentication.getCredentials();
+        String password = authentication.getCredentials().toString();
 
-            // use the credentials
-            // and authenticate against the third-party system
+        // check if user is valid
+        if (jpaUserDetailsManager.isAuthenticationValid(name, password)) {
+
             return new UsernamePasswordAuthenticationToken(
-              name, password, List.of());
-
+              name, password, List.of() );
+        } else {
+            throw new BadCredentialsException(name);
+        }
     }
 
     @Override

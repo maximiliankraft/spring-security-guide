@@ -28,12 +28,8 @@ public class UserEntity implements UserDetails {
     String password;
     boolean enabled;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    @ManyToMany
+    List<Authority> authorities;
 
     @Override
     public boolean isAccountNonExpired() {

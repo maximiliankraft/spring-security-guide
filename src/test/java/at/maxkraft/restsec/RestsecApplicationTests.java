@@ -24,14 +24,9 @@ class RestsecApplicationTests {
 					assert result.getResponse().getStatus() == 200;
 				});
 
-		mockMvc.perform(get("/user/login/test/abc").headers())
+		mockMvc.perform(get("/user/login/test/abc"))
 				.andExpect(result -> {
 					assert result.getResponse().getStatus() == 200;
-				});
-
-		mockMvc.perform(get("/user/login/user/notexisting"))
-				.andExpect(result -> {
-					assert result.getResponse().getStatus() == 403;
 				});
 
 

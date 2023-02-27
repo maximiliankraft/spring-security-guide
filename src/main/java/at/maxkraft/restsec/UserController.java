@@ -83,7 +83,7 @@ public class UserController {
 
     @GetMapping("/register/{username}/{password}")
     UserEntity registerUser(@PathVariable String username, @PathVariable String password){
-        UserEntity newUser = new UserEntity(null, username, password, true);
+        UserEntity newUser = new UserEntity(null, username, password, true, List.of());
 
         return userRepository.save(newUser);
     }
@@ -107,19 +107,13 @@ public class UserController {
 
     }
 
-    @PatchMapping("/changePassword")
-    UserEntity changePassword(@RequestBody UserEntity userWithNewPw,
-                              Authentication auth,
-                              HttpServletResponse response){
+    @PatchMapping("/changePassword/{newPassword}")
+    UserEntity changePassword(@PathVariable String newPassword,
+                              Authentication auth) {
 
-        if(isUserCredentialsValid(auth) && ((String)auth.getPrincipal()).equals(userWithNewPw.getUsername()) ){
-            response.setStatus(200);
-            return userRepository.save(userWithNewPw);
-        }
+        var user = userRepository.findByUsername((String) auth.getPrincipal()).get();
+        user.setPassword(newPassword);
 
-        response.setStatus(401);
-        return null;
+        return userRepository.save(user);
     }
-
-
 }
