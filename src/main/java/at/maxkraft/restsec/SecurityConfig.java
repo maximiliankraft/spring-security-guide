@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private UserRepoAuthenticationProvider customAuthenticationProvider;
+    UserRepoAuthProvider userRepoAuthProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -29,10 +29,11 @@ public class SecurityConfig {
                         .requestMatchers("/user/name").authenticated()
                         .requestMatchers("/test/**").anonymous()
                         .requestMatchers("/test/**").authenticated()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
-                .authenticationProvider(customAuthenticationProvider) // not necessary but helps to explicitly include it
+                //.authenticationProvider(customAuthenticationProvider) // not necessary but helps to explicitly include it
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // introduce a token based system
+                .authenticationProvider(userRepoAuthProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // (3)
                 .httpBasic(Customizer.withDefaults()) // (4)
                 .build();

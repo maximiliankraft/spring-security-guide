@@ -53,8 +53,23 @@ public class UserController {
         return authentication.getName();
     }
 
-    // /grant
 
+    @PutMapping("/grant/{grantedUsername}/{permissionType}/{className}/{objectId}")
+    Permission grantPermission(Authentication authentication,
+                               @PathVariable String grantedUsername,
+                               @PathVariable String permissionType,
+                               @PathVariable String className,
+                               @PathVariable Long objectId
+    ){
+
+        var grantedUserOption = userRepository.findByUsername(grantedUsername);
+
+        // todo check authorization
+        return permissionRepository.save(new Permission(null, grantedUserOption.get(), className, objectId, permissionType));
+    }
+
+
+    // /grant
     @GetMapping("/grant/{grantingUsername}/{password}/{grantedUsername}/{permissionType}/{className}/{objectId}")
     Permission grantPermission(
             @PathVariable String grantingUsername,
@@ -82,8 +97,6 @@ public class UserController {
                 response.setStatus(401);
                 return null;
             }
-
-
         }else {
             response.setStatus(400);
             return null;
@@ -91,6 +104,4 @@ public class UserController {
 
         return null;
     }
-
-
 }
