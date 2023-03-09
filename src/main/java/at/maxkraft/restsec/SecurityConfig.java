@@ -27,8 +27,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
                         .requestMatchers("/user/name").authenticated()
-                        .requestMatchers("/test/**").anonymous()
+                        //.requestMatchers("/test/**").anonymous()
                         .requestMatchers("/test/**").authenticated()
+                        .requestMatchers("/test").authenticated()
                         .anyRequest().authenticated()
                 )
                 //.authenticationProvider(customAuthenticationProvider) // not necessary but helps to explicitly include it

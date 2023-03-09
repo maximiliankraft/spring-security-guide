@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -22,6 +19,8 @@ public class TestRessourceController {
     UserRepository userRepository;
 
     PermissionChecker permissionChecker;
+
+    PermissionRepository permissionRepository;
 
 
     @GetMapping("/")
@@ -60,8 +59,6 @@ public class TestRessourceController {
 
         // todo check if user is allowed to read ressource
 
-
-
         // requesting username, className: "TestResource", requested id: id, requested action: "read"
         boolean isAllowed = permissionChecker.checkPermission((String) auth.getPrincipal(), "TestResource", id, "read");
 
@@ -74,6 +71,24 @@ public class TestRessourceController {
         return result;
     }
 
+    @PutMapping("/")
+    TestRessource addTestResource(Authentication auth, @RequestBody TestRessource testRessource){
 
+        var savedResource = testRessourceRepository.save(testRessource);
+
+        var user = userRepository.findByUsername((String)auth.getName()).get();
+
+        Permission testResourcePermission = new Permission(
+                null,
+                user,
+                "TestResource",
+                savedResource.getId(),
+                "owner"
+        );
+
+        permissionRepository.save(testResourcePermission);
+
+        return savedResource;
+    }
 
 }

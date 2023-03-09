@@ -23,6 +23,7 @@ public class Permission {
 
     Long objectId;
 
-    String name; // e.g. read, write, delete, grant, ...
+    // permissionName
+    String name; // e.g. read, write, delete, grant, owner
 
 }

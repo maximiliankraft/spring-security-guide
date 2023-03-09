@@ -32,19 +32,24 @@ public class PermissionChecker {
         }
     }
 
-    public boolean hasPermissionInRepo(String className, String permisionName, String  user, Long objectId){
+    public boolean hasPermissionInRepo(String className, String permissionName, String  user, Long objectId){
 
         var userEntity = userRepository.findByUsername(user).get();
 
         var permissionOption = permissionRepository.findByClassNameAndNameAndUserAndObjectId(
                 className,
-                permisionName,
+                permissionName,
                 userEntity,
                 objectId);
 
         return permissionOption.isPresent();
     }
 
+
+    public boolean isOwner(String username, String className, Long objectId){
+
+        return this.hasPermissionInRepo(className, "owner", username, objectId);
+    }
 
     public boolean checkPermission(String name, String className, Long objectId, String permissionName) {
 
@@ -55,7 +60,10 @@ public class PermissionChecker {
          *   if the resoruce has been granted to the user
          * */
 
-        return isAdmin(name) || hasPermissionInRepo(className, permissionName, name, objectId); //|| ..
+        return isAdmin(name) ||
+                hasPermissionInRepo(className, permissionName, name, objectId) ||
+                isOwner(name, className, objectId);
 
     }
+
 }

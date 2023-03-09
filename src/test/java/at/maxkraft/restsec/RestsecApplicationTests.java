@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -52,6 +53,23 @@ class RestsecApplicationTests {
 		// test if admin is available
 		mockMvc.perform(get("/user/login/admin/admin"))
 				.andExpect(status().is(200));
+
+	}
+
+	@Test
+	void testAddNewResource() throws Exception {
+		/*
+		PUT http://localhost:8080/test/
+		Authorization: Basic admin admin
+		Content-Type: application/json
+
+		{"id": null, "title": "Test", "description": "Test 2"}		* */
+
+		mockMvc.perform(put("/test/")
+				.header("Authorization", "Basic admin admin")
+				.contentType("application/json")
+				.content("{\"id\": null, \"title\": \"Test\", \"description\": \"Test 2\"}"))
+				.andExpect(status().isOk());
 
 	}
 
