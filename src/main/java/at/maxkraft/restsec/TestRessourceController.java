@@ -3,6 +3,7 @@ package at.maxkraft.restsec;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,8 @@ public class TestRessourceController {
     TestRessourceRepository testRessourceRepository;
 
     UserRepository userRepository;
+
+    PermissionChecker permissionChecker;
 
 
     @GetMapping("/")
@@ -53,25 +56,22 @@ public class TestRessourceController {
     }
 
     @GetMapping("/{id}")
-    Optional<TestRessource> findTestId(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response){
+    Optional<TestRessource> findTestId(@PathVariable Long id, Authentication auth, HttpServletResponse response) {
 
-        String authHeader = request.getHeader("Authorization");
+        // todo check if user is allowed to read ressource
 
-        boolean authValid = isAuthValid(authHeader);
 
-        if (authValid){
-            Optional<TestRessource> result = testRessourceRepository.findById(id);
-            if (result.isEmpty()){
-                response.setStatus(404); // Not found
-            }
 
-            return result;
+        // requesting username, className: "TestResource", requested id: id, requested action: "read"
+        boolean isAllowed = permissionChecker.checkPermission((String) auth.getPrincipal(), "TestResource", id, "read");
 
-        }else {
-            response.setStatus(401); // Unauthorized
-            return Optional.empty();
+
+        Optional<TestRessource> result = testRessourceRepository.findById(id);
+        if (result.isEmpty()) {
+            response.setStatus(404); // Not found
         }
 
+        return result;
     }
 
 

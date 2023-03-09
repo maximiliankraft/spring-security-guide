@@ -7,5 +7,11 @@ import java.util.Optional;
 public interface PermissionRepository extends CrudRepository<Permission, Long> {
 
     Optional<Permission> findByClassNameAndNameAndUser(String className, String permissionName ,UserEntity user);
+    Optional<Permission> findByClassNameAndNameAndUserAndObjectId(
+            String className,
+            String permissionName ,
+            UserEntity user,
+            Long objectId
+    );
 
 }
