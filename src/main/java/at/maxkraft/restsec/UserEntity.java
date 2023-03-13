@@ -31,6 +31,8 @@ public class UserEntity implements UserDetails {
     @ManyToMany
     List<Authority> authorities;
 
+    @OneToMany
+    List<PermissionEntity> permissions;
 
 
     @Override

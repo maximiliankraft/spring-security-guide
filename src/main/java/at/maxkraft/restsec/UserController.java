@@ -35,6 +35,8 @@ public class UserController {
 
     UserRepository userRepository;
 
+    PermissionRepository permissionRepository;
+
     boolean isUserCredentialsValid(Authentication auth){
 
         String givenUsername = (String)auth.getPrincipal();
@@ -83,7 +85,7 @@ public class UserController {
 
     @GetMapping("/register/{username}/{password}")
     UserEntity registerUser(@PathVariable String username, @PathVariable String password){
-        UserEntity newUser = new UserEntity(null, username, password, true, List.of());
+        UserEntity newUser = new UserEntity(null, username, password, true, List.of(), List.of());
 
         return userRepository.save(newUser);
     }
