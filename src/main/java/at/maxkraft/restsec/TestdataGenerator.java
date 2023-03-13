@@ -1,6 +1,7 @@
 package at.maxkraft.restsec;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -30,9 +31,7 @@ public class TestdataGenerator implements CommandLineRunner {
 
         AuthorityEntity adminAuthority = new AuthorityEntity(5L, "admin");
 
-        authorityRepository.saveAll(
-                List.of(read, write, delete, grant, owner,adminAuthority)
-        );
+
 
         var admin = new UserEntity(
                 0L,
@@ -43,7 +42,10 @@ public class TestdataGenerator implements CommandLineRunner {
                 false,
                 List.of(write, read, adminAuthority));
 
-        userRepository.save(admin);
+            authorityRepository.saveAll(
+                    List.of(read, write, delete, grant, owner,adminAuthority)
+            );
 
+            userRepository.save(admin);
     }
 }

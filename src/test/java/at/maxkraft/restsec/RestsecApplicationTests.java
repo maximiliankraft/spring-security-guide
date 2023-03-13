@@ -1,47 +1,36 @@
 package at.maxkraft.restsec;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+//@SpringBootTest
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext
 class RestsecApplicationTests {
 
 	@Autowired
 	MockMvc mockMvc;
 
-	@Autowired
+	@MockBean
 	UserRepository userRepository;
 
-
-	@Autowired
+	@MockBean
 	AuthorityRepository authorityRepository;
 
-	//@Autowired
-	//TestdataGenerator generator;
-
-
-
-
-	@DirtiesContext
 	@Test
 	void contextLoads() {
 	}
 
-	@DirtiesContext
+	
 	@Test
 	void testRegisterNewUser() throws Exception {
 
@@ -58,7 +47,7 @@ class RestsecApplicationTests {
 
 
 
-	@DirtiesContext
+	
 	@Test
 	void testLoginNewUser() throws Exception{
 
@@ -76,7 +65,7 @@ class RestsecApplicationTests {
 
 	}
 
-	@DirtiesContext
+	
 	@Test
 	void testAddNewResource() throws Exception {
 		/*
