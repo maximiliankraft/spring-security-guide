@@ -63,9 +63,26 @@ public class UserController {
     ){
 
         var grantedUserOption = userRepository.findByUsername(grantedUsername);
+        var granteeUserOption = userRepository.findByUsername((String) authentication.getPrincipal());
 
-        // todo check authorization
-        return permissionRepository.save(new Permission(null, grantedUserOption.get(), className, objectId, permissionType));
+        // if grantee is allowed to grant, add new permission
+        if(permissionRepository.findByClassNameAndNameAndUserAndObjectId(
+                "TestResource",
+                "grant",
+                granteeUserOption.get(),
+                objectId).isPresent()
+        ){
+            //check authorization
+            return permissionRepository.save(new Permission(
+                    null,
+                    grantedUserOption.get(),
+                    className,
+                    objectId,
+                    permissionType)
+            );
+        }
+
+        return null;
     }
 
 

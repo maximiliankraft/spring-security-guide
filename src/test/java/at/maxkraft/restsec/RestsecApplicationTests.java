@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -14,15 +17,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext
 class RestsecApplicationTests {
 
 	@Autowired
 	MockMvc mockMvc;
 
+	@Autowired
+	UserRepository userRepository;
+
+
+	@Autowired
+	AuthorityRepository authorityRepository;
+
+	//@Autowired
+	//TestdataGenerator generator;
+
+
+
+
+	@DirtiesContext
 	@Test
 	void contextLoads() {
 	}
 
+	@DirtiesContext
 	@Test
 	void testRegisterNewUser() throws Exception {
 
@@ -39,6 +58,7 @@ class RestsecApplicationTests {
 
 
 
+	@DirtiesContext
 	@Test
 	void testLoginNewUser() throws Exception{
 
@@ -56,6 +76,7 @@ class RestsecApplicationTests {
 
 	}
 
+	@DirtiesContext
 	@Test
 	void testAddNewResource() throws Exception {
 		/*
@@ -65,6 +86,8 @@ class RestsecApplicationTests {
 
 		{"id": null, "title": "Test", "description": "Test 2"}		* */
 
+		//generator.run();
+
 		mockMvc.perform(put("/test/")
 				.header("Authorization", "Basic admin admin")
 				.contentType("application/json")
@@ -72,5 +95,34 @@ class RestsecApplicationTests {
 				.andExpect(status().isOk());
 
 	}
+
+	// todo test grant resource to other user
+	@Test
+	void testGrantResource() throws Exception{
+
+		// register users
+		mockMvc.perform(get("/user/register/a/a"))
+				.andExpect(status().is(200));
+
+		mockMvc.perform(get("/user/register/b/b"))
+				.andExpect(status().is(200));
+
+		// create resource
+		mockMvc.perform(put("/test/")
+						.header("Authorization", "Basic a a")
+						.contentType("application/json")
+						.content("{\"id\": null, \"title\": \"Test\", \"description\": \"Test 2\"}"))
+				.andExpect(status().isOk());
+
+		// grant resource
+
+
+		// call resource
+
+		// delete resource
+
+	}
+
+
 
 }
