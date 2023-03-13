@@ -37,6 +37,7 @@ public class JPAUserDetailsManager implements UserDetailsManager {
     @Override
     public void createUser(UserDetails user) {
 
+        // user.getClass().equals(UserEntity.class);
         if (user instanceof UserEntity){
             userRepository.save((UserEntity) user);
         }else {
@@ -70,8 +71,6 @@ public class JPAUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        // TODO Auto-generated method stub
-
         // todo utilze context holder
         // SecurityContextHolder holder = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         

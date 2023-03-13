@@ -28,8 +28,6 @@ class RestsecApplicationTests {
 				.andExpect(result -> {
 					assert result.getResponse().getStatus() == 200;
 				});
-
-
 	}
 
 
