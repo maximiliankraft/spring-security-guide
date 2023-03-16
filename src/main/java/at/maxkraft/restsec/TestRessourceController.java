@@ -60,8 +60,12 @@ public class TestRessourceController {
         // todo check if user is allowed to read ressource
 
         // requesting username, className: "TestResource", requested id: id, requested action: "read"
-        boolean isAllowed = permissionChecker.checkPermission((String) auth.getPrincipal(), "TestResource", id, "read");
+        boolean isAllowed = permissionChecker.checkPermission(auth.getName(), "TestResource", id, "read");
 
+        if (!isAllowed){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return Optional.empty();
+        }
 
         Optional<TestRessource> result = testRessourceRepository.findById(id);
         if (result.isEmpty()) {

@@ -26,10 +26,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register/**").anonymous()
+                        .requestMatchers("/user/login/**").anonymous()
                         .requestMatchers("/user/name").authenticated()
                         //.requestMatchers("/test/**").anonymous()
-                        .requestMatchers("/test/**").authenticated()
-                        .requestMatchers("/test").authenticated()
                         .anyRequest().authenticated()
                 )
                 //.authenticationProvider(customAuthenticationProvider) // not necessary but helps to explicitly include it

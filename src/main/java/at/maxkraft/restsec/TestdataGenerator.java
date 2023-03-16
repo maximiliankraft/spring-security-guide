@@ -17,24 +17,28 @@ public class TestdataGenerator implements CommandLineRunner {
     AuthorityRepository authorityRepository;
 
 
+
+
     @Override
     public void run(String... args) throws Exception {
 
         var users = StreamSupport.stream(userRepository.findAll().spliterator(), true).toList();
         var authorities = StreamSupport.stream(authorityRepository.findAll().spliterator(), true).toList();
 
-        AuthorityEntity read = new AuthorityEntity(0L, "read");
-        AuthorityEntity write = new AuthorityEntity(1L, "write");
-        AuthorityEntity delete = new AuthorityEntity(2L, "delete");
-        AuthorityEntity grant = new AuthorityEntity(3L, "grant");
-        AuthorityEntity owner = new AuthorityEntity(4L, "owner");
+        AuthorityEntity read = new AuthorityEntity(null, "read");
+        AuthorityEntity write = new AuthorityEntity(null, "write");
+        AuthorityEntity delete = new AuthorityEntity(null, "delete");
+        AuthorityEntity grant = new AuthorityEntity(null, "grant");
+        AuthorityEntity owner = new AuthorityEntity(null, "owner");
 
-        AuthorityEntity adminAuthority = new AuthorityEntity(5L, "admin");
+        AuthorityEntity adminAuthority = new AuthorityEntity(null, "admin");
 
-
+        authorityRepository.saveAll(
+                List.of(read, write, delete, grant, owner,adminAuthority)
+        );
 
         var admin = new UserEntity(
-                0L,
+                null,
                 "admin",
                 "admin",
                 true,
@@ -42,9 +46,7 @@ public class TestdataGenerator implements CommandLineRunner {
                 false,
                 List.of(write, read, adminAuthority));
 
-            authorityRepository.saveAll(
-                    List.of(read, write, delete, grant, owner,adminAuthority)
-            );
+
 
             userRepository.save(admin);
     }
