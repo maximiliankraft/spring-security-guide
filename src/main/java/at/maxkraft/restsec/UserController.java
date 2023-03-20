@@ -63,7 +63,7 @@ public class UserController {
     ){
 
         var grantedUserOption = userRepository.findByUsername(grantedUsername);
-        var granteeUserOption = userRepository.findByUsername((String) authentication.getPrincipal());
+        var granteeUserOption = userRepository.findByUsername( authentication.getName());
 
         // if grantee is allowed to grant, add new permission
         if(permissionRepository.findByClassNameAndNameAndUserAndObjectId(
