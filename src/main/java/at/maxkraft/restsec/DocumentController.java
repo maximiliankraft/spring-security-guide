@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RequestMapping("/docs")
+@RestController
 @AllArgsConstructor
 public class DocumentController {
 

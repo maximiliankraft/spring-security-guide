@@ -15,6 +15,6 @@ public class InitialDataGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(new UserEntity(null, "admin", "admin", true, List.of()));
+        userRepository.save(new UserEntity(null, "admin", "admin", true, List.of(), List.of()));
     }
 }
