@@ -15,9 +15,10 @@ RUN gradle bootJar
 
 RUN ls /buildenv/build/libs/
 
-WORKDIR /app
 
 FROM eclipse-temurin:17-alpine
+
+WORKDIR /app
 
 COPY --from=build /buildenv/build/libs/restsec-0.0.1-SNAPSHOT.jar /app/restsec-0.0.1-SNAPSHOT.jar
 
