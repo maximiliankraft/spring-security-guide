@@ -32,26 +32,27 @@ public class PermissionChecker {
         }
     }
 
-    public boolean hasPermissionInRepo(String className, String permissionName, String  user, Long objectId){
+    public boolean hasPermissionInRepo(String className, PermissionLevel requestedPermissionLevel, String  user, Long objectId){
 
         var userEntity = userRepository.findByUsername(user).get();
 
-        var permissionOption = permissionRepository.findByClassNameAndNameAndUserAndObjectId(
+        var permissionOption = permissionRepository.findByClassNameAndUserAndObjectId(
                 className,
-                permissionName,
                 userEntity,
                 objectId);
 
-        return permissionOption.isPresent();
+
+        return permissionOption.isPresent() &&
+                permissionOption.get().permissionLevel.ordinal() <= requestedPermissionLevel.ordinal();
     }
 
 
     public boolean isOwner(String username, String className, Long objectId){
 
-        return this.hasPermissionInRepo(className, "owner", username, objectId);
+        return this.hasPermissionInRepo(className, PermissionLevel.OWNER, username, objectId);
     }
 
-    public boolean checkPermission(String name, String className, Long objectId, String permissionName) {
+    public boolean checkPermission(String name, String className, Long objectId, PermissionLevel permissionName) {
 
         /*
          * Reading is allowed when:

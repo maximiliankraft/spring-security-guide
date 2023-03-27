@@ -57,7 +57,7 @@ public class UserController {
     @PutMapping("/grant/{grantedUsername}/{permissionType}/{className}/{objectId}")
     Permission grantPermission(Authentication authentication,
                                @PathVariable String grantedUsername,
-                               @PathVariable String permissionType,
+                               @PathVariable PermissionLevel permissionType,
                                @PathVariable String className,
                                @PathVariable Long objectId
     ){
@@ -65,12 +65,13 @@ public class UserController {
         var grantedUserOption = userRepository.findByUsername(grantedUsername);
         var granteeUserOption = userRepository.findByUsername( authentication.getName());
 
-        // if grantee is allowed to grant, add new permission
-        if(permissionRepository.findByClassNameAndNameAndUserAndObjectId(
+        var permissionOption = permissionRepository.findByClassNameAndUserAndObjectId(
                 "TestResource",
-                "grant",
                 granteeUserOption.get(),
-                objectId).isPresent()
+                objectId);
+
+        // if grantee is allowed to grant, add new permission
+        if(permissionOption.isPresent()
         ){
             //check authorization
             return permissionRepository.save(new Permission(
@@ -92,7 +93,7 @@ public class UserController {
             @PathVariable String grantingUsername,
             @PathVariable String password,
             @PathVariable String grantedUsername,
-            @PathVariable String permissionType, // e.g read, write, delete...
+            @PathVariable PermissionLevel permissionType, // e.g read, write, delete...
             @PathVariable String className,
             @PathVariable Long objectId,
             HttpServletResponse response

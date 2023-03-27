@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/test")
@@ -15,11 +16,8 @@ import java.util.Optional;
 public class TestRessourceController {
 
     TestRessourceRepository testRessourceRepository;
-
     UserRepository userRepository;
-
     PermissionChecker permissionChecker;
-
     PermissionRepository permissionRepository;
 
 
@@ -58,9 +56,10 @@ public class TestRessourceController {
     Optional<TestRessource> findTestId(@PathVariable Long id, Authentication auth, HttpServletResponse response) {
 
         // todo check if user is allowed to read ressource
+        var permissions = StreamSupport.stream(permissionRepository.findAll().spliterator(), false).toArray();
 
         // requesting username, className: "TestResource", requested id: id, requested action: "read"
-        boolean isAllowed = permissionChecker.checkPermission(auth.getName(), "TestResource", id, "read");
+        boolean isAllowed = permissionChecker.checkPermission(auth.getName(), "TestResource", id, PermissionLevel.READ);
 
         if (!isAllowed){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -87,7 +86,7 @@ public class TestRessourceController {
                 user,
                 "TestResource",
                 savedResource.getId(),
-                "owner"
+                PermissionLevel.OWNER
         );
 
         permissionRepository.save(testResourcePermission);

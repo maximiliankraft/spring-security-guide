@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// todo ordner erstellen
+
 @Entity
 @Getter
 @Setter
@@ -23,7 +25,6 @@ public class Permission {
 
     Long objectId;
 
-    // permissionName
-    String name; // e.g. read, write, delete, grant, owner
+    PermissionLevel permissionLevel; // e.g. read, write, delete, grant, owner
 
 }

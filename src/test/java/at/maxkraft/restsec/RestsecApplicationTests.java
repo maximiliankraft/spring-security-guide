@@ -2,23 +2,18 @@ package at.maxkraft.restsec;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -135,18 +130,19 @@ class RestsecApplicationTests {
 				creationResponse.getResponse().getContentAsString(),
 				TestRessource.class);
 
-		mockMvc.perform(put("/user/grant/b/write/TestResource/" + testRessourceResponse.getId())
+		mockMvc.perform(put("/user/grant/b/WRITE/TestResource/" + testRessourceResponse.getId())
 				.with(user("a").password("a"))
 		).andExpect(status().isOk());
 
-		// fixme this part isn't working yet
+
 		// call resource as user b
-		//mockMvc.perform(get("/test/" + testRessourceResponse.getId())
-		//		.with(user("b").password("b"))
-		//).andExpect(status().isOk());
+		mockMvc.perform(get("/test/" + testRessourceResponse.getId())
+				.with(user("b").password("b"))
+		).andExpect(status().isOk());
 
 		// delete resource
 		// todo continue here
+
 
 	}
 
