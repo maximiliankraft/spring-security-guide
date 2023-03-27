@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -83,8 +82,43 @@ class RestsecApplicationTests {
 		assert fetchDocEntity.getId().equals(returnedDocEntity.getId());
 	}
 
-	// todo grant document to another user
 
+	// todo grant document to another user
+	@Test
+	void grantDocumentToAnotherUser() throws Exception {
+
+		// create users x and y
+		mockMvc.perform(get("/user/register/x/x"))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(get("/user/register/y/y"))
+				.andExpect(status().isOk());
+
+		// user y creates document
+		var jsonString = gson.toJson(new DocumentEntity(null, "Formular XY", LocalDateTime.now(), List.of()));
+
+		var docCreationResult = mockMvc.perform(post("/docs/")
+				.with(user("y").password("y"))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonString)
+		).andExpect(status().isOk()).andReturn();
+
+		Long createdDocId = gson.fromJson(
+				docCreationResult.getResponse().getContentAsString(), DocumentEntity.class
+		).getId();
+
+		// user y grants document to user x
+		mockMvc.perform(put("/docs/grant/x/" + createdDocId + "/READ")
+				.with(user("y").password("y"))
+		).andExpect(status().isOk());
+
+
+		// user x retrieves document
+		mockMvc.perform(get("/docs/" + createdDocId)
+						.with(user("x").password("x")))
+				.andExpect(status().isOk());
+
+	}
 
 
 

@@ -74,4 +74,38 @@ public class DocumentController {
         return storedDoc;
     }
 
+    @PutMapping("/grant/{grantedUsername}/{docId}/{permissionLevel}")
+    PermissionEntity grantPermissionToDocument(
+            Authentication grantingUserAuth,
+            @PathVariable String grantedUsername,
+            @PathVariable Long docId,
+            @PathVariable PermissionLevel permissionLevel,
+            HttpServletResponse response){
+
+        var grantedUserOption = userRepository.findByUsername(grantedUsername);
+        var documentOption = documentRepository.findById(docId);
+
+        if (grantedUserOption.isEmpty() || documentOption.isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
+        }
+
+        var grantingPermissionOption = permissionRepository.findByUserUsernameAndDocumentId(
+                grantingUserAuth.getName(),
+                docId);
+
+        if (grantingPermissionOption.isEmpty() ||
+                grantingPermissionOption.get().getAuth().ordinal() > PermissionLevel.GRANT.ordinal()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
+
+        return permissionRepository.save(new PermissionEntity(
+                null,
+                grantedUserOption.get(), // get user
+                documentOption.get(), //  get document
+                permissionLevel //  get permission level
+        ));
+    }
+
 }
