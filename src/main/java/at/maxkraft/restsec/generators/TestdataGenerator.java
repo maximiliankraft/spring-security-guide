@@ -1,7 +1,10 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.generators;
 
+import at.maxkraft.restsec.entities.AuthorityEntity;
+import at.maxkraft.restsec.entities.UserEntity;
+import at.maxkraft.restsec.repositories.AuthorityRepository;
+import at.maxkraft.restsec.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,7 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.repositories;
 
-import org.springframework.data.jpa.repository.Query;
+import at.maxkraft.restsec.entities.Permission;
+import at.maxkraft.restsec.entities.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

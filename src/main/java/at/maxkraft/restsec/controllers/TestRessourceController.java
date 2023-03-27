@@ -1,12 +1,18 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
+import at.maxkraft.restsec.entities.Permission;
+import at.maxkraft.restsec.entities.PermissionLevel;
+import at.maxkraft.restsec.entities.TestRessource;
+import at.maxkraft.restsec.entities.UserEntity;
+import at.maxkraft.restsec.repositories.PermissionRepository;
+import at.maxkraft.restsec.repositories.TestRessourceRepository;
+import at.maxkraft.restsec.repositories.UserRepository;
+import at.maxkraft.restsec.security.PermissionChecker;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 

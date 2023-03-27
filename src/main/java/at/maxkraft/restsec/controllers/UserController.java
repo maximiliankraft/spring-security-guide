@@ -1,20 +1,17 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.controllers;
 
 
-import jakarta.servlet.http.HttpServletRequest;
+import at.maxkraft.restsec.entities.Permission;
+import at.maxkraft.restsec.entities.PermissionLevel;
+import at.maxkraft.restsec.entities.UserEntity;
+import at.maxkraft.restsec.repositories.PermissionRepository;
+import at.maxkraft.restsec.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -28,7 +25,7 @@ public class UserController {
     PermissionRepository permissionRepository;
 
     @GetMapping("/register/{username}/{password}")
-    UserEntity register( @PathVariable String username, @PathVariable String password){
+    UserEntity register(@PathVariable String username, @PathVariable String password){
 
         return userRepository.save(
                 new UserEntity(null, password, username, true, false, false, List.of())

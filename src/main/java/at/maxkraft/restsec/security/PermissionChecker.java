@@ -1,6 +1,10 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.security;
 
 
+import at.maxkraft.restsec.entities.PermissionLevel;
+import at.maxkraft.restsec.repositories.AuthorityRepository;
+import at.maxkraft.restsec.repositories.PermissionRepository;
+import at.maxkraft.restsec.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +47,7 @@ public class PermissionChecker {
 
 
         return permissionOption.isPresent() &&
-                permissionOption.get().permissionLevel.ordinal() <= requestedPermissionLevel.ordinal();
+                permissionOption.get().getPermissionLevel().ordinal() <= requestedPermissionLevel.ordinal();
     }
 
 

@@ -1,5 +1,11 @@
 package at.maxkraft.restsec;
 
+import at.maxkraft.restsec.entities.TestRessource;
+import at.maxkraft.restsec.repositories.AuthorityRepository;
+import at.maxkraft.restsec.repositories.PermissionRepository;
+import at.maxkraft.restsec.repositories.TestRessourceRepository;
+import at.maxkraft.restsec.repositories.UserRepository;
+import at.maxkraft.restsec.security.PermissionChecker;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +36,16 @@ class RestsecApplicationTests {
 	MockMvc mockMvc;
 
 	// autowire all the things needed in the tests
-	@Autowired UserRepository userRepository;
-	@Autowired AuthorityRepository authorityRepository;
-	@Autowired PermissionRepository permissionRepository;
-	@Autowired TestRessourceRepository testRessourceRepository;
-	@Autowired PermissionChecker permissionChecker;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	AuthorityRepository authorityRepository;
+	@Autowired
+	PermissionRepository permissionRepository;
+	@Autowired
+	TestRessourceRepository testRessourceRepository;
+	@Autowired
+	PermissionChecker permissionChecker;
 
 	@Test
 	void contextLoads() {

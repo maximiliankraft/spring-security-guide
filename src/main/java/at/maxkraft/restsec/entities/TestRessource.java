@@ -1,4 +1,4 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.entities;
 
 
 import jakarta.persistence.*;

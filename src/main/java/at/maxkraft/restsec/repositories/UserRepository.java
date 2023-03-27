@@ -1,11 +1,9 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.repositories;
 
+import at.maxkraft.restsec.entities.UserEntity;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);

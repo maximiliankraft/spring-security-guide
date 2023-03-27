@@ -1,5 +1,6 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.security;
 
+import at.maxkraft.restsec.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

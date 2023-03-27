@@ -1,4 +1,4 @@
-package at.maxkraft.restsec;
+package at.maxkraft.restsec.security;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.NotYetImplementedFor6Exception;
