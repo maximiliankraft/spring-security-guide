@@ -66,8 +66,8 @@ public class PermissionChecker {
          * */
 
         return isAdmin(name) ||
-                hasPermissionInRepo(className, permissionName, name, objectId) ||
-                isOwner(name, className, objectId);
+                hasPermissionInRepo(className, permissionName, name, objectId);
+                // isOwner(name, className, objectId);
 
     }
 

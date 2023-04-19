@@ -44,12 +44,10 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/name")
     String getUsername(Authentication authentication){
         return authentication.getName();
     }
-
 
     @PutMapping("/grant/{grantedUsername}/{permissionType}/{className}/{objectId}")
     Permission grantPermission(Authentication authentication,
@@ -63,7 +61,7 @@ public class UserController {
         var granteeUserOption = userRepository.findByUsername( authentication.getName());
 
         var permissionOption = permissionRepository.findByClassNameAndUserAndObjectId(
-                "TestResource",
+                "TestResource", // className.getClass().getName()
                 granteeUserOption.get(),
                 objectId);
 
@@ -78,43 +76,6 @@ public class UserController {
                     objectId,
                     permissionType)
             );
-        }
-
-        return null;
-    }
-
-
-    // /grant
-    @GetMapping("/grant/{grantingUsername}/{password}/{grantedUsername}/{permissionType}/{className}/{objectId}")
-    Permission grantPermission(
-            @PathVariable String grantingUsername,
-            @PathVariable String password,
-            @PathVariable String grantedUsername,
-            @PathVariable PermissionLevel permissionType, // e.g read, write, delete...
-            @PathVariable String className,
-            @PathVariable Long objectId,
-            HttpServletResponse response
-    ){
-
-        var grantedUserOption = userRepository.findByUsername(grantedUsername);
-
-        if (grantedUserOption.isPresent()){
-            var newPermission = new Permission(null, grantedUserOption.get(), className, objectId, permissionType);
-
-            var grantingUser = userRepository.findByUsernameAndPassword(grantingUsername, password);
-
-            if (grantingUser.isPresent()){ // user exists
-
-                // todo continue here
-                //grantingUser.get().getAuthorities()
-
-            } else { // user credentials invalid
-                response.setStatus(401);
-                return null;
-            }
-        }else {
-            response.setStatus(400);
-            return null;
         }
 
         return null;
