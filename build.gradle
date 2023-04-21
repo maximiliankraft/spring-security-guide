@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.1'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id "org.sonarqube" version "4.0.0.2929"
 }
 
 group = 'at.maxkraft'
@@ -29,8 +30,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql:42.3.7'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+sonarqube {
+	properties {
+		property "sonar.token", "sqp_0f65bd5bd7d6dc08d9761d8319e3f509142480c7"
+		property "sonar.host.url", "http://localhost:9000" // or replace with your SonarQube instance URL
+		property "sonar.projectKey", "sonartest" // replace with your project key
+		property "sonar.projectName", "sonartest" // replace with your project name
+		property "sonar.projectVersion", "1.0" // replace with your project version
+		property "sonar.sources", "src/main/java" // replace with your source directory
+		property "sonar.tests", "src/test/java" // replace with your test directory
+		property "sonar.java.binaries", "build/classes/java/main" // replace with your class files directory
+		property "sonar.java.libraries", "build/libs/*.jar" // replace with your dependency JARs directory
+		// add any other properties you need
+	}
+}
+
