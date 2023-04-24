@@ -7,6 +7,14 @@ services:
     ports:
       - "80:8080"
 
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - postgres_data:/
+
   sonarqube:
     image: sonarqube:community
     volumes:
@@ -19,3 +27,4 @@ volumes:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
+  postgres_data:

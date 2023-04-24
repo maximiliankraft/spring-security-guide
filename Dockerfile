@@ -22,4 +22,4 @@ WORKDIR /app
 
 COPY --from=build /buildenv/build/libs/restsec-0.0.1-SNAPSHOT.jar /app/restsec-0.0.1-SNAPSHOT.jar
 
-ENTRYPOINT ["java", "-jar", "/app/restsec-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/restsec-0.0.1-SNAPSHOT.jar", "-Dspring.profiles.active=postgres"]
