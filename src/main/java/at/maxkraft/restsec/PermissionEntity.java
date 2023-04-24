@@ -23,8 +23,14 @@ public class PermissionEntity {
     @ManyToOne
     UserEntity user;
 
+    @Deprecated
     @OneToOne
     DocumentEntity document;
+
+    // todo DocumentEntity in the PermissionEntity only allows for
+    // todo Permissions about a Document to be stored. Split it up into
+    // todo String ressourceType, and
+    // todo String ressourceId
 
     @Enumerated(EnumType.ORDINAL)
     PermissionLevel auth; // "none", "read", write, grant, owner
